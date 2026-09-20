@@ -405,15 +405,17 @@ figures/results/
 └── beta10/
 ```
 
-Each directory contains:
+Each directory contains the following result images:
 
-```text
-2DVC.png
-3DVC.png
-IS.png
-PVC.png
-TCXS.png
-```
+| Filename | Meaning |
+|---|---|
+| `2DVC.png` | **2D Velocity Contour** |
+| `3DVC.png` | **3D Velocity Contour** |
+| `IS.png` | **Isotherm** |
+| `PVC.png` | **Planar View Contour** |
+| `TCXS.png` | **Temperature Contour — X-Shaped** |
+
+The same naming convention is used for every aspect-ratio result directory.
 
 The directories correspond to:
 
@@ -425,6 +427,18 @@ The directories correspond to:
 | `beta06` | β = 0.6 |
 | `beta08` | β = 0.8 |
 | `beta10` | β = 1.0 |
+
+### Result Image Naming Convention
+
+The result filenames use the following abbreviations:
+
+```text
+2DVC  →  2D Velocity Contour
+3DVC  →  3D Velocity Contour
+IS    →  Isotherm
+PVC   →  Planar View Contour
+TCXS  →  Temperature Contour — X-Shaped
+```
 
 ---
 
