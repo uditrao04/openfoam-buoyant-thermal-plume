@@ -1,0 +1,192 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2412                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+// VIEW THE MODEL FROM:
+//  +X AXIS TO THE RIGHT OF THE SCREEN
+//  +Z AXIS TO THE TOP OF THE SCREEN
+//  +Y AXIS INSIDE THE SCREEN
+
+scale   1;
+
+// Heat source dimensions
+halfLength 0.05;     // Fixed (X direction)
+halfWidth  0.050;     // Change only this value (Y direction)
+
+/*------------------------------------------------*\
+| Heater aspect ratio cases						   |
+|												   |
+| beta = 1.0  -> halfWidth = 0.050				   |
+| beta = 0.8  -> halfWidth = 0.040				   |
+| beta = 0.6  -> halfWidth = 0.030				   |
+| beta = 0.4  -> halfWidth = 0.020				   |
+| beta = 0.2  -> halfWidth = 0.010				   |
+| beta = 0.1  -> halfWidth = 0.005				   |
+|												   |
+| Change only halfWidth for different beta values. |
+\*------------------------------------------------*/
+
+height     1.0;		// (Z direction)
+
+vertices
+(
+    (-0.5 0.5 0)    		//0
+	(-0.5  $halfWidth 0)    //1
+	(-0.5 -$halfWidth 0)    //2
+    (-0.5 -0.5 0)   		//3
+    (-0.05 -0.5 0)  		//4
+    (0.05 -0.5 0)   		//5
+    (0.5 -0.5 0)    		//6
+	( 0.5 -$halfWidth 0)    //7
+	( 0.5  $halfWidth 0)    //8
+    (0.5 0.5 0)     		//9
+    (0.05 0.5 0)    		//10
+    (-0.05 0.5 0)   		//11
+
+    // Heat Source (z=0)
+	(-$halfLength  $halfWidth 0)	//12
+	(-$halfLength -$halfWidth 0)	//13
+	( $halfLength -$halfWidth 0)	//14
+	( $halfLength  $halfWidth 0)	//15
+
+    (-0.5 0.5 $height)					//16
+	(-0.5  $halfWidth $height)    	//17
+	(-0.5 -$halfWidth $height)    	//18
+    (-0.5 -0.5 $height)   				//19
+    (-0.05 -0.5 $height)  				//20
+    (0.05 -0.5 $height)   				//21
+    (0.5 -0.5 $height)    				//22
+    ( 0.5 -$halfWidth $height)    	//23
+	( 0.5  $halfWidth $height)    	//24
+    (0.5 0.5 $height)     				//25
+    (0.05 0.5 $height)    				//26
+    (-0.05 0.5 $height)   				//27
+
+    // Heat Source (z=1)
+	(-$halfLength  $halfWidth $height)   //28
+	(-$halfLength -$halfWidth $height)   //29
+	( $halfLength -$halfWidth $height)   //30
+	( $halfLength  $halfWidth $height)   //31
+);
+
+nX 50;
+nY 50;
+nZ 100;
+
+blocks
+(
+    // LEFT
+    hex (0 1 12 11 16 17 28 27) ($nX $nY $nZ) simpleGrading (-41 -41 41)
+    hex (1 2 13 12 17 18 29 28) ($nX $nY $nZ) simpleGrading (1 -41 41)
+    hex (2 3 4 13 18 19 20 29) ($nX $nY $nZ) simpleGrading (41 -41 41)
+
+    // CENTER
+    hex (11 12 15 10 27 28 31 26) ($nX $nY $nZ) simpleGrading (-41 1 41)
+    hex (12 13 14 15 28 29 30 31) ($nX $nY $nZ) simpleGrading (1 1 41)
+    hex (13 4 5 14 29 20 21 30) ($nX $nY $nZ) simpleGrading (41 1 41)
+
+    // RIGHT
+    hex (10 15 8 9 26 31 24 25) ($nX $nY $nZ) simpleGrading (-41 41 41)
+    hex (15 14 7 8 31 30 23 24) ($nX $nY $nZ) simpleGrading (1 41 41)
+    hex (14 5 6 7 30 21 22 23) ($nX $nY $nZ) simpleGrading (41 41 41)
+);
+
+edges
+(
+);
+
+boundary
+(
+    heatedSource
+    {
+        type wall;
+        faces
+        (
+            (15 14 13 12)
+        );
+    }
+
+    floor
+    {
+        type    wall;
+        faces
+        (
+            (11 12 1 0)
+            (12 13 2 1)
+            (13 4 3 2)
+
+            (10 15 12 11)
+            (14 5 4 13)
+
+            (9 8 15 10)
+            (8 7 14 15)
+            (7 6 5 14)
+        );
+    }
+
+    ceiling
+    {
+        type    wall;
+        faces
+        (
+            (27 28 17 16)
+            (28 29 18 17)
+            (29 20 19 18)
+
+            (26 31 28 27)
+            (30 21 20 29)
+
+            (25 24 31 26)
+            (24 23 30 31)
+            (23 22 21 30)
+
+            (28 29 30 31)
+        );
+    }
+
+    wall
+    {
+        type    wall;
+        faces
+        (
+            // leftWall
+            (0 16 17 1)
+            (1 17 18 2)
+            (2 18 19 3)
+
+            // rightWall
+            (9 8 24 25)
+            (8 7 23 24)
+            (7 6 22 23)
+
+            // frontWall
+            (0 11 27 16)
+            (11 10 26 27)
+            (10 9 25 26)
+
+            // backWall
+            (3 19 20 4)
+            (4 20 21 5)
+            (5 21 22 6)
+        );
+    }
+);
+
+mergePatchPairs
+(
+);
+
+// ************************************************************************* //
+

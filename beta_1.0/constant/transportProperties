@@ -1,0 +1,41 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2412                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      transportProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+transportModel Newtonian;
+
+// Laminar viscosity
+// Air at 298K, 101325Pa via Sutherland's Law
+// mu = 1.8375e-5 Pa.s, rho = 101325/(287.058*298) = 1.1845 kg/m3
+nu              1.551e-05;
+
+// Thermal expansion coefficient
+// Boussinesq approx for ideal gas: beta = 1/TRef = 1/298
+beta            3.356e-03;
+
+// Reference temperature
+// Paper Section 2.3.1: "initial ambient temperature of 298K"
+TRef            298;
+
+// Laminar Prandtl number
+// Air at 298K: Pr = mu*Cp/k = 1.8375e-5*1005/0.02598
+Pr              0.713;
+
+// Turbulent Prandtl number
+// Standard value for buoyant flows, consistent with paper's kwSST setup
+Prt             0.85;
+
+
+// ************************************************************************* //

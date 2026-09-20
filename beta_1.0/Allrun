@@ -1,0 +1,14 @@
+echo "Starting blockMesh -> log.blockMesh"
+blockMesh > log.blockMesh 2>&1
+echo "Starting topoSet -> log.topoSet"
+topoSet > log.topoSet 2>&1
+echo "Starting createPatch -> log.createPatch"
+createPatch -overwrite > log.createPatch 2>&1
+echo "Starting renumberMesh -> log.renumberMesh"
+renumberMesh -overwrite > log.renumberMesh 2>&1
+echo "Starting decomposePar -> log.decomposePar"
+decomposePar -force > log.decomposePar 2>&1
+echo "Starting buoyantBoussinesqSimpleFoam -> log"
+mpirun -np 8 buoyantBoussinesqSimpleFoam -parallel > log 2>&1
+echo "Starting reconstructPar -> log.reconstructPar"
+reconstructPar -latestTime > log.reconstructPar 2>&1

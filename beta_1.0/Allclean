@@ -1,0 +1,6 @@
+rm -rf log* [1-9]* processor* constant/polyMesh/ postProcessing *.foam cleanLog* .agents .git
+echo Cleaned decomposed case
+echo Cleaned polyMesh
+echo Cleaned postProcessing
+echo Cleaned unnecessary .foam files
+echo Cleaned log files

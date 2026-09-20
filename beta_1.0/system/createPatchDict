@@ -1,0 +1,86 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2412                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      createPatchDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+pointSync true;
+
+// Patches to create
+patches
+(
+    {
+        // Name of new patch
+        name inlet1;
+
+        // Dictionary to construct new patch from
+        patchInfo
+        {
+            type patch;
+        }
+
+        // How to construct: either from 'patches' or 'set'
+        constructFrom set;
+
+        // If constructFrom = patches : names of patches. Wildcards allowed.
+        patches ();
+
+        // If constructFrom = set : name of faceSet
+        set inletFace1;
+    }
+    
+        {
+        // Name of new patch
+        name inlet2;
+
+        // Dictionary to construct new patch from
+        patchInfo
+        {
+            type patch;
+        }
+
+        // How to construct: either from 'patches' or 'set'
+        constructFrom set;
+
+        // If constructFrom = patches : names of patches. Wildcards allowed.
+        patches ();
+
+        // If constructFrom = set : name of faceSet
+        set inletFace2;
+    }
+    
+    {
+        name    outlet1;
+        patchInfo
+        {
+            type    patch;
+        }
+        constructFrom   set;
+        patches         ();
+        set             outletFace1;
+    }
+    
+    {
+        name    outlet2;
+        patchInfo
+        {
+            type    patch;
+        }
+        constructFrom   set;
+        patches         ();
+        set             outletFace2;
+    }
+);
+
+
+// ************************************************************************* //
