@@ -31,3 +31,5 @@ __pycache__/
 *.swp
 *.swo
 *~
+*.zip
+*.7z

@@ -1,11 +1,14 @@
 #!/bin/bash
 
-# Runs Allrun in every case directory.
-# Ensure Allrun has executable permission before execution.
+# Runs "genAll.sh" followed by "Allrun" in every case directory.
+# Ensure all scripts have executable permission before execution.
+# You can give permission to all scripts in the current directory and subdirectories using:
+# chmod +x <file name>
 
 set -e
 
-./genAll
+chmod +x *      # * means "all files in the current directory"
+./genAll.sh
 
 for i in ./beta_*/
 do
